@@ -8,12 +8,16 @@ import {
   logout,
   register,
   fetchUsers,
+  fetchMessages,
   sendMessage,
+  focusedUser,
+  // connectSocket,
+  // disconnectSocket,
+  addUser,
 } from './actions';
 
 class Root extends React.Component {
   componentDidMount() {
-    this.props.fetchUsers();
     this.updateDimensions();
     window.addEventListener('resize', this.updateDimensions.bind(this));
   }
@@ -38,7 +42,12 @@ const mapDispatchToProps = {
   logout,
   register,
   fetchUsers,
+  fetchMessages,
   sendMessage,
+  focusedUser,
+  // connectSocket,
+  // disconnectSocket,
+  addUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

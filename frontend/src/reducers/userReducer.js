@@ -3,6 +3,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   INPUT,
+  ADD_USER,
+  USERS_LIST,
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
@@ -18,7 +20,7 @@ const initialState = {
   uid: '',
   authenticated: false,
   fetching: false,
-  users: {},
+  users: [],
   error: null,
 };
 
@@ -63,6 +65,21 @@ export default function authReducer(state = initialState, action = {}) {
         ...state,
         fetching: false,
         error: action.error,
+      };
+    case ADD_USER:
+      return {
+        ...state,
+        users: state.users.concat([
+          {
+            name: action.name,
+            id: action.id,
+          },
+        ]),
+      };
+    case USERS_LIST:
+      return {
+        ...state,
+        users: action.users,
       };
     default:
       return state;

@@ -2,8 +2,7 @@ const express = require('express');
 
 const app = express();
 
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+// const http = require('http').Server(app);
 const path = require('path');
 // const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
@@ -11,9 +10,63 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config');
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 8989 });
+
+const users = [];
 
 const port = process.env.PORT || 8080;
 const dev = process.env.NODE_ENV !== 'production';
+
+
+const broadcast = (data, ws) => {
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN && client !== ws) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
+
+wss.on('connection', ws => {
+  let index;
+  ws.on('message', message => {
+    const data = JSON.parse(message);
+    console.log(message);
+    switch (data.type) {
+      case 'ADD_USER': {
+        index = users.length;
+        users.push({ name: data.name, id: index + 1 });
+        ws.send(JSON.stringify({
+          type: 'USERS_LIST',
+          users,
+        }));
+        broadcast({
+          type: 'USERS_LIST',
+          users,
+        }, ws);
+        break;
+      }
+      case 'ADD_MESSAGE':
+        broadcast({
+          type: 'ADD_MESSAGE',
+          message: data.message,
+          author: data.author,
+        }, ws);
+        break;
+      default:
+        break;
+    }
+  });
+
+  ws.on('close', () => {
+    users.splice(index, 1);
+    broadcast({
+      type: 'USERS_LIST',
+      users,
+    }, ws);
+  });
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,16 +101,7 @@ if (dev) {
   });
 }
 
-io.on('connection', socket => {
-  socket.on('new message', data => {
-    console.log(data);
-    socket.broadcast.emit('new message', {
-      message: data,
-    });
-  });
-});
-
-http.listen(port, '0.0.0.0', err => {
+app.listen(port, '0.0.0.0', err => {
   if (err) {
     console.error(err);
   }

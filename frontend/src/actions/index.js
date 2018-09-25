@@ -1,7 +1,5 @@
-import io from 'socket.io-client';
 import * as types from '../constants';
 
-const socket = io();
 // APP ACTIONS
 export function screenResize(width) {
   return {
@@ -18,6 +16,20 @@ export function handleInput(input, el) {
     el,
   };
 }
+
+// export function connectSocket(socketId) {
+//   return {
+//     type: types.CONNECTED,
+//     socketId,
+//   };
+// }
+//
+//
+// export function disconnectSocket() {
+//   return {
+//     type: types.DISCONNECTED,
+//   };
+// }
 
 // AUTH ACTIONS
 export function login(e, email, password) {
@@ -53,10 +65,62 @@ export function fetchUsers() {
 }
 
 // CHAT ACTIONS
-export function sendMessage(message) {
-  socket.emit('new message', message);
+export function fetchMessages(user) {
+  return {
+    type: types.FETCH_MESSAGES,
+    user,
+  };
+}
+
+export function sendMessage(message, to, user) {
   return {
     type: types.SEND_MESSAGE,
     message,
+    to,
+    user,
+  };
+}
+
+export function focusedUser(user) {
+  return {
+    type: types.FOCUSED_USER,
+    user,
+  };
+}
+
+let nextMessageId = 0;
+let nextUserId = 0;
+
+export function addMessage(message, author) {
+  return {
+    type: types.ADD_MESSAGE,
+    id: nextMessageId++,
+    message,
+    author,
+  };
+}
+
+export function addUser(name) {
+  return {
+    type: types.ADD_USER,
+    id: nextUserId++,
+    name,
+  };
+}
+
+export function messageReceived(message, author) {
+  return {
+    type: types.MESSAGE_RECEIVED,
+    id: nextMessageId++,
+    message,
+    author,
+  };
+}
+
+export function populateUsersList(users) {
+  console.log(users);
+  return {
+    type: types.USERS_LIST,
+    users,
   };
 }
