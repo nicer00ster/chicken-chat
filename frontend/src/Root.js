@@ -8,6 +8,7 @@ import {
   logout,
   register,
   fetchUsers,
+  sendMessage,
 } from './actions';
 
 class Root extends React.Component {
@@ -37,6 +38,7 @@ const mapDispatchToProps = {
   logout,
   register,
   fetchUsers,
+  sendMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

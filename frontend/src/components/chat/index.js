@@ -29,8 +29,8 @@ class Chat extends React.Component {
           </ul>
         </div>
         <div className="chat__message">
-          <input type='text' placeholder="Type your message here..."/>
-          <input type='submit' value='Send'/>
+          <input onChange={e => this.props.handleInput(e.target.value, 'message')} type='text' placeholder="Type your message here..."/>
+          <input onClick={() => this.props.sendMessage(this.props.chat.message)} type='submit' value='Send'/>
         </div>
       </div>
     );
@@ -40,6 +40,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
   logout: PropTypes.func,
   user: PropTypes.object,
+  handleInput: PropTypes.func,
 };
 
 export default Chat;

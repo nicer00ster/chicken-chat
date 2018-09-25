@@ -2,6 +2,7 @@ import {
   SEND_MESSAGE,
   SEND_MESSAGE_SUCCESS,
   SEND_MESSAGE_FAILURE,
+  INPUT,
 } from '../constants';
 
 const initialState = {
@@ -28,6 +29,10 @@ export default function authReducer(state = initialState, action = {}) {
         ...state,
         sending: false,
         error: action.error,
+      };
+    case INPUT:
+      return {
+        [action.el]: action.input,
       };
     default:
       return state;

@@ -1,17 +1,19 @@
 const express = require('express');
+
+const app = express();
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-
 const webpackConfig = require('../webpack.config');
 
 const port = process.env.PORT || 8080;
 const dev = process.env.NODE_ENV !== 'production';
-
-const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -46,7 +48,16 @@ if (dev) {
   });
 }
 
-app.listen(port, '0.0.0.0', err => {
+io.on('connection', socket => {
+  socket.on('new message', data => {
+    console.log(data);
+    socket.broadcast.emit('new message', {
+      message: data,
+    });
+  });
+});
+
+http.listen(port, '0.0.0.0', err => {
   if (err) {
     console.error(err);
   }

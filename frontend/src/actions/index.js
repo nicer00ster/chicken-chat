@@ -1,5 +1,7 @@
+import io from 'socket.io-client';
 import * as types from '../constants';
 
+const socket = io();
 // APP ACTIONS
 export function screenResize(width) {
   return {
@@ -52,6 +54,7 @@ export function fetchUsers() {
 
 // CHAT ACTIONS
 export function sendMessage(message) {
+  socket.emit('new message', message);
   return {
     type: types.SEND_MESSAGE,
     message,
