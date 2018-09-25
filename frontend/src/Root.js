@@ -1,10 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Navigation from './components/router/Router';
-import { screenResize, handleInput } from './actions';
+import {
+  screenResize,
+  handleInput,
+  login,
+  logout,
+  register,
+  fetchUsers,
+} from './actions';
 
 class Root extends React.Component {
   componentDidMount() {
+    this.props.fetchUsers();
     this.updateDimensions();
     window.addEventListener('resize', this.updateDimensions.bind(this));
   }
@@ -16,14 +24,19 @@ class Root extends React.Component {
   }
 }
 
-const mapStateToProps = ({ app, user }) => ({
+const mapStateToProps = ({ app, user, chat }) => ({
   app,
   user,
+  chat,
 });
 
 const mapDispatchToProps = {
   screenResize,
   handleInput,
+  login,
+  logout,
+  register,
+  fetchUsers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

@@ -18,7 +18,9 @@ export function handleInput(input, el) {
 }
 
 // AUTH ACTIONS
-export function login(email, password) {
+export function login(e, email, password) {
+  e.preventDefault();
+  console.log(email, password);
   return {
     type: types.LOGIN,
     email,
@@ -26,9 +28,32 @@ export function login(email, password) {
   };
 }
 
-export function register(data) {
+export function logout() {
+  return {
+    type: types.LOGOUT,
+  };
+}
+
+export function register(e, email, password) {
+  e.preventDefault();
+  console.log(email, password);
   return {
     type: types.REGISTER,
-    data,
+    email,
+    password,
+  };
+}
+
+export function fetchUsers() {
+  return {
+    type: types.FETCH_USERS,
+  };
+}
+
+// CHAT ACTIONS
+export function sendMessage(message) {
+  return {
+    type: types.SEND_MESSAGE,
+    message,
   };
 }

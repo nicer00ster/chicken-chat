@@ -6,13 +6,20 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  FETCH_USERS,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
 } from '../constants';
 
 const initialState = {
   username: '',
   email: '',
   password: '',
+  uid: '',
   authenticated: false,
+  fetching: false,
+  users: {},
+  error: null,
 };
 
 export default function authReducer(state = initialState, action = {}) {
@@ -30,10 +37,32 @@ export default function authReducer(state = initialState, action = {}) {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        email: action.update.email,
+        uid: action.user.uid,
+        authenticated: true,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
+        authenticated: false,
+        error: action.error,
+      };
+    case FETCH_USERS:
+      return {
+        ...state,
+        fetching: true,
+      };
+    case FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        users: action.users,
+      };
+    case FETCH_USERS_FAILURE:
+      return {
+        ...state,
+        fetching: false,
+        error: action.error,
       };
     default:
       return state;
