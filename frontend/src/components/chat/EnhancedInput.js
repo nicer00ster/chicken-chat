@@ -6,11 +6,11 @@ import { addMessage } from '../../actions';
 function EnhancedInput(props) {
   let input;
   return (
-    <section id="new-message">
+    <section className="chat__message" id="new-message">
       <input
         onKeyPress={e => {
           if (e.key === 'Enter') {
-            props.dispatch(input.value, 'Me');
+            props.addMessage(input.value, 'Me');
             input.value = '';
           }
         }}
@@ -19,18 +19,20 @@ function EnhancedInput(props) {
           input = node;
         }}
       />
+      <input
+        onClick={() => { props.addMessage(input.value, 'Me'); input.value = ''; }}
+        type='submit'
+        value='Send'/>
     </section>
   );
 }
 
 EnhancedInput.propTypes = {
-  dispatch: PropTypes.func,
+  addMessage: PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => ({
-  dispatch: (message, author) => {
-    dispatch(addMessage(message, author));
-  },
-});
+const mapDispatchToProps = {
+  addMessage,
+};
 
 export default connect(null, mapDispatchToProps)(EnhancedInput);

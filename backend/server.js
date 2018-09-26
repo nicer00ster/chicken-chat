@@ -51,7 +51,7 @@ wss.on('connection', ws => {
         broadcast({
           type: 'ADD_MESSAGE',
           message: data.message,
-          author: data.author,
+          sender: data.sender,
         }, ws);
         break;
       default:

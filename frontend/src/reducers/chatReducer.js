@@ -75,7 +75,7 @@ export default function authReducer(state = initialState, action = {}) {
         messages: state.messages.concat([
           {
             message: action.message,
-            author: action.author,
+            sender: action.sender,
             id: action.id,
           },
         ]),

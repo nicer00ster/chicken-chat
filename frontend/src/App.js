@@ -2,6 +2,9 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import pink from '@material-ui/core/colors/pink';
+import teal from '@material-ui/core/colors/teal';
 import createSagaMiddleware from 'redux-saga';
 
 import setupSocket from './sockets';
@@ -19,12 +22,24 @@ const store = createStore(rootReducer,
 
 const socket = setupSocket(store.dispatch, username);
 
+const theme = createMuiTheme({
+  palette: {
+    primary: pink,
+    secondary: teal,
+  },
+  status: {
+    danger: 'orange',
+  },
+});
+
 sagaMiddleware.run(rootSaga, { socket, username });
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <Root />
-    </Provider>
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    </MuiThemeProvider>
   );
 }

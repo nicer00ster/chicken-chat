@@ -108,8 +108,8 @@ function* loginStatusWatcher() {
 //   });
 // }
 
-// This is your root saga.
 function* rootSaga(params) {
+  console.log(params);
   yield fork(loginStatusWatcher);
   yield all([
     takeEvery(types.REGISTER, registerSaga),
@@ -119,7 +119,7 @@ function* rootSaga(params) {
     takeEvery(types.FETCH_MESSAGES, fetchMessagesSaga),
     takeEvery(types.SEND_MESSAGE, sendMessageSaga),
     takeEvery(types.ADD_MESSAGE, action => {
-      action.author = params.username;
+      action.sender = params.username;
       params.socket.send(JSON.stringify(action));
     }),
   ]);

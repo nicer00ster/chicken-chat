@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 import EnhancedMessage from './EnhancedMessage';
 
 const EnhancedMessageList = ({ messages }) => (
-  <section id="messages-list">
+  <div id="messages-list">
     <ul>
     {Object.values(messages).map(message => (
       <EnhancedMessage
-      key={message.id}
-      {...message}
-      />
+        key={message.id}
+        {...message} />
     ))}
     </ul>
-  </section>
+  </div>
 );
 
 EnhancedMessageList.propTypes = {
@@ -21,7 +20,7 @@ EnhancedMessageList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       message: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
+      sender: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
 };

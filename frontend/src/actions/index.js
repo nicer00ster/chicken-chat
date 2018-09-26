@@ -91,12 +91,12 @@ export function focusedUser(user) {
 let nextMessageId = 0;
 let nextUserId = 0;
 
-export function addMessage(message, author) {
+export function addMessage(message, sender) {
   return {
     type: types.ADD_MESSAGE,
     id: nextMessageId++,
     message,
-    author,
+    sender,
   };
 }
 
@@ -108,12 +108,12 @@ export function addUser(name) {
   };
 }
 
-export function messageReceived(message, author) {
+export function messageReceived(message, sender) {
   return {
     type: types.MESSAGE_RECEIVED,
     id: nextMessageId++,
     message,
-    author,
+    sender,
   };
 }
 
