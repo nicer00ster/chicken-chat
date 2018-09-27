@@ -1,9 +1,13 @@
 import * as types from '../constants';
 import { addUser, messageReceived, populateUsersList } from '../actions';
+import { app } from '../../../config/base';
 
-const setupSocket = (dispatch, username) => {
+console.log(app.auth().currentUser);
+
+const setupSocket = async dispatch => {
   const socket = new WebSocket('ws://10.0.40.58:8989');
 
+  const username = app.auth().currentUser.email;
   socket.onopen = () => {
     socket.send(JSON.stringify({
       type: types.ADD_USER,

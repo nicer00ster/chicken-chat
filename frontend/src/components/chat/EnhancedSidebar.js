@@ -1,19 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 
 const EnhancedSidebar = props => (
-  <ul className="chat__main-users">
+  <List>
     {props.users.map(user => (
-      <li
-        key={user.id}
+      <ListItem
         onClick={e => props.focusedUser(e.target.textContent)}
-        className={classNames(props.chat.focusedUser === user.name ? 'focused' : null)}>
-        {user.name}
-      </li>
+        className={classNames(props.chat.focusedUser === user.name ? 'focused' : null)}
+        key={user.id}
+        dense
+        button>
+        <Avatar alt={user.name} src={'http://i.pravatar.cc/150?img=3'} />
+        <ListItemText primary={user.name} />
+      </ListItem>
     ))}
-  </ul>
+  </List>
 );
 
 EnhancedSidebar.propTypes = {

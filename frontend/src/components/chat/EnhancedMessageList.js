@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
 import EnhancedMessage from './EnhancedMessage';
 
 const EnhancedMessageList = ({ messages }) => (
-  <div id="messages-list">
-    <ul>
+  <List>
     {Object.values(messages).map(message => (
       <EnhancedMessage
         key={message.id}
         {...message} />
     ))}
-    </ul>
-  </div>
+  </List>
 );
 
 EnhancedMessageList.propTypes = {

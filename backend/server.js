@@ -1,24 +1,27 @@
 const express = require('express');
+const admin = require('firebase-admin');
 
 const app = express();
-
-// const http = require('http').Server(app);
 const path = require('path');
-// const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
 const webpack = require('webpack');
+const WebSocket = require('ws');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config');
-const WebSocket = require('ws');
-
-const wss = new WebSocket.Server({ port: 8989 });
 
 const users = [];
 
+const serviceAccount = require('../config/serviceAccountKey.json');
+
+const wss = new WebSocket.Server({ port: 8989 });
 const port = process.env.PORT || 8080;
 const dev = process.env.NODE_ENV !== 'production';
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://chicken-chat-1ae85.firebaseio.com/',
+});
 
 const broadcast = (data, ws) => {
   wss.clients.forEach(client => {
@@ -32,7 +35,7 @@ wss.on('connection', ws => {
   let index;
   ws.on('message', message => {
     const data = JSON.parse(message);
-    console.log(message);
+    console.log(data);
     switch (data.type) {
       case 'ADD_USER': {
         index = users.length;
@@ -58,7 +61,6 @@ wss.on('connection', ws => {
         break;
     }
   });
-
   ws.on('close', () => {
     users.splice(index, 1);
     broadcast({
@@ -91,7 +93,6 @@ if (dev) {
   }));
 
   app.use(webpackHotMiddleware(compiler));
-
   app.use(express.static(path.resolve(__dirname, '../dist')));
 } else {
   app.use(express.static(path.resolve(__dirname, '../dist')));

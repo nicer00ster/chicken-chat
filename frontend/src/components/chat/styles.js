@@ -63,17 +63,13 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.primary,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 1,
     height: '100%',
     overflowY: 'scroll',
     overflowX: 'hidden',
   },
   flex: {
     flexGrow: 1,
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
   },
   actionsContainer: {
     marginBottom: theme.spacing.unit * 2,
@@ -105,6 +101,12 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing.unit * 9,
     },
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
   },
 });
 

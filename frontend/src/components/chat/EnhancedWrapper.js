@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -12,6 +11,7 @@ const styles = theme => ({
     width: '100%',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+    borderTop: '1px solid rgba(0, 0, 0, 0.25)',
   },
 });
 
@@ -26,6 +26,7 @@ function EnhancedWrapper(props) {
 
 EnhancedWrapper.propTypes = {
   classes: PropTypes.object.isRequired,
+  children: PropTypes.object,
 };
 
 export default withStyles(styles)(EnhancedWrapper);

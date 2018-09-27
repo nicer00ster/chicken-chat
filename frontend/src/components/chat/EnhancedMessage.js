@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 
-const EnhancedMessage = ({ message, sender }) => {
-  return (
-    sender !== 'Me'
-      ? <div className="chat__main-dialog__them">
-          <div className="chat__main-dialog__them-avatar"></div>
-          <div className="chat__main-dialog__them-name">{sender}</div>
-          <div className="chat__main-dialog__them-message">{message}</div>
-        </div>
-      : <div className="chat__main-dialog__self">
-          <div className="chat__main-dialog__self-avatar"></div>
-          <div className="chat__main-dialog__self-name">{sender}</div>
-          <div className="chat__main-dialog__self-message">{message}</div>
-        </div>
-  );
-};
+const EnhancedMessage = ({ message, sender }) => (
+  sender !== 'Me'
+    ? <ListItem key={sender.id}>
+        <Avatar alt={sender} src={'http://i.pravatar.cc/150?img=3'} />
+        <ListItemText primary={message} secondary={sender} />
+      </ListItem>
+    : <ListItem key={sender.id}>
+        <Avatar alt={sender} src={'http://i.pravatar.cc/150?img=3'} />
+        <ListItemText primary={message} secondary={sender} />
+      </ListItem>
+);
 
 EnhancedMessage.propTypes = {
   message: PropTypes.string.isRequired,

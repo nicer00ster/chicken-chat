@@ -9,7 +9,6 @@ import createSagaMiddleware from 'redux-saga';
 
 import setupSocket from './sockets';
 import rootReducer from './reducers';
-import username from './utils/name';
 import rootSaga from './sagas';
 import Root from './Root';
 
@@ -20,7 +19,9 @@ const store = createStore(rootReducer,
     applyMiddleware(sagaMiddleware),
   ));
 
-const socket = setupSocket(store.dispatch, username);
+const socket = setupSocket(store.dispatch);
+
+sagaMiddleware.run(rootSaga, { socket });
 
 const theme = createMuiTheme({
   palette: {
@@ -31,8 +32,6 @@ const theme = createMuiTheme({
     danger: 'orange',
   },
 });
-
-sagaMiddleware.run(rootSaga, { socket, username });
 
 export default function App() {
   return (

@@ -88,6 +88,7 @@ function* sendMessageSaga(data) {
   }
 }
 
+let username;
 function* loginStatusWatcher() {
   // events on this channel fire when the user logs in or logs out
   const channel = yield call(rsf.auth.channel);
@@ -95,21 +96,14 @@ function* loginStatusWatcher() {
     const { user } = yield take(channel);
     console.log(user);
     if (user) {
+      username = user.email;
       const update = yield call(rsf.database.read, `users/${user.uid}`);
       yield put({ type: types.LOGIN_SUCCESS, user, update });
     } else yield put({ type: types.LOGIN_FAILURE });
   }
 }
 
-// export function* handleNewMessage(params) {
-//   yield takeEvery(types.ADD_MESSAGE, action => {
-//     action.author = params.username;
-//     params.socket.send(JSON.stringify(action));
-//   });
-// }
-
 function* rootSaga(params) {
-  console.log(params);
   yield fork(loginStatusWatcher);
   yield all([
     takeEvery(types.REGISTER, registerSaga),
@@ -119,8 +113,8 @@ function* rootSaga(params) {
     takeEvery(types.FETCH_MESSAGES, fetchMessagesSaga),
     takeEvery(types.SEND_MESSAGE, sendMessageSaga),
     takeEvery(types.ADD_MESSAGE, action => {
-      action.sender = params.username;
-      params.socket.send(JSON.stringify(action));
+      action.sender = username;
+      params.socket.send(JSON.stringify(action, username));
     }),
   ]);
 }

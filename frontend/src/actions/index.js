@@ -17,20 +17,6 @@ export function handleInput(input, el) {
   };
 }
 
-// export function connectSocket(socketId) {
-//   return {
-//     type: types.CONNECTED,
-//     socketId,
-//   };
-// }
-//
-//
-// export function disconnectSocket() {
-//   return {
-//     type: types.DISCONNECTED,
-//   };
-// }
-
 // AUTH ACTIONS
 export function login(e, email, password) {
   e.preventDefault();
@@ -118,7 +104,7 @@ export function messageReceived(message, sender) {
 }
 
 export function populateUsersList(users) {
-  console.log(users);
+  console.log('here', users);
   return {
     type: types.USERS_LIST,
     users,

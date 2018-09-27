@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import EnhancedAppBar from './EnhancedAppBar';
 import EnhancedInput from './EnhancedInput';
-import EnhancedMessageList from './EnhancedMessageList';
 import EnhancedWrapper from './EnhancedWrapper';
 import { addUser } from '../../actions';
 import styles from './styles';
@@ -17,14 +16,12 @@ class Chat extends React.Component {
     return (
       <React.Fragment>
         <EnhancedAppBar
+          logout={this.props.logout}
           chat={this.props.chat}
           focusedUser={this.props.focusedUser} />
-          <main className={classes.root}>
-            <EnhancedWrapper>
-              <EnhancedMessageList />
-              <EnhancedInput />
-            </EnhancedWrapper>
-          </main>
+        <EnhancedWrapper>
+          <EnhancedInput />
+        </EnhancedWrapper>
       </React.Fragment>
     );
   }
@@ -39,6 +36,7 @@ Chat.propTypes = {
   fetchMessages: PropTypes.func,
   connectSocket: PropTypes.func,
   disconnectSocket: PropTypes.func,
+  classes: PropTypes.object,
   chat: PropTypes.shape({
     message: PropTypes.string,
     focusedUser: PropTypes.string,
